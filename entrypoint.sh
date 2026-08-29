@@ -51,7 +51,7 @@ msg "Installing essential packages..."
 # The 'python' package provides Python 2.
 apt-get install -y --force-yes build-essential git make bc bison \
     openssl curl zip kmod cpio flex libelf-dev libssl-dev wget \
-    device-tree-compiler ca-certificates python xz-utils ccache
+    device-tree-compiler ca-certificates python xz-utils ccache lzop
 # =======================================================
 
 set_output hash "$(cd "$kernel_path" && git rev-parse HEAD || exit 127)"
