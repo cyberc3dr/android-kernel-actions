@@ -67,40 +67,46 @@ if [[ $arch = "arm64" ]]; then
     export ARCH="$arch"
     export SUBARCH="$arch"
 
-    # Setup LineageOS GCC 4.9 toolchain
     toolchain_url="https://github.com/LineageOS/android_prebuilts_gcc_linux-x86_aarch64_aarch64-linux-android-4.9/archive/refs/heads/lineage-18.1.tar.gz"
-    toolchain_dest="/opt/lineage-gcc"
+    toolchain_dest="/opt/lineage-gcc-arm64"
     toolchain_prefix="aarch64-linux-android-"
 
-    msg "Downloading GCC toolchain..."
-    echo "URL: $toolchain_url"
-    if ! wget --no-check-certificate "$toolchain_url" -O /tmp/lineage-gcc.tar.gz; then
-        err "Failed downloading toolchain."
-        exit 1
-    fi
-    
-    mkdir -p "$toolchain_dest"
-    msg "Extracting toolchain to $toolchain_dest"
-    if ! tar xf /tmp/lineage-gcc.tar.gz -C "$toolchain_dest" --strip-components=1; then
-        err "Failed to extract toolchain"
-        exit 1
-    fi
-    
-    # === FIX: Grant execute permissions to the toolchain binaries (Solves the 'execv' error) ===
-    msg "Setting toolchain permissions..."
-    chmod +x $toolchain_dest/bin/*
-    # ===============================================================
+elif [[ $arch = "arm" ]]; then
+    arch_opts="ARCH=${arch} SUBARCH=${arch}"
+    export ARCH="$arch"
+    export SUBARCH="$arch"
 
-    export PATH="$toolchain_dest/bin:$PATH"
-    export CROSS_COMPILE="$toolchain_prefix"
-
-    make_opts="CCACHE=ccache"
-    host_make_opts=""
+    toolchain_url="https://github.com/LineageOS/android_prebuilts_gcc_linux-x86_arm_arm-linux-androideabi-4.9/archive/refs/heads/cm-14.1.tar.gz"
+    toolchain_dest="/opt/lineage-gcc-arm"
+    toolchain_prefix="arm-linux-androideabi-"
 
 else
-    err "Currently this action only supports arm64, refer to the README for more detail"
+    err "Currently this action only supports arm and arm64, refer to the README for more detail"
     exit 100
 fi
+
+msg "Downloading GCC toolchain for ${arch}..."
+echo "URL: $toolchain_url"
+if ! wget --no-check-certificate "$toolchain_url" -O /tmp/lineage-gcc.tar.gz; then
+    err "Failed downloading toolchain."
+    exit 1
+fi
+
+mkdir -p "$toolchain_dest"
+msg "Extracting toolchain to $toolchain_dest"
+if ! tar xf /tmp/lineage-gcc.tar.gz -C "$toolchain_dest" --strip-components=1; then
+    err "Failed to extract toolchain"
+    exit 1
+fi
+
+msg "Setting toolchain permissions..."
+chmod +x $toolchain_dest/bin/*
+
+export PATH="$toolchain_dest/bin:$PATH"
+export CROSS_COMPILE="$toolchain_prefix"
+
+make_opts="CCACHE=ccache"
+host_make_opts=""
 
 cd "$workdir"/"$kernel_path" || exit 127
 start_time="$(date +%s)"
