@@ -118,6 +118,8 @@ echo "CROSS_COMPILE: $CROSS_COMPILE"
 command -v "${CROSS_COMPILE}gcc" || { err "Cross compiler not found in PATH"; exit 1; }
 command -v gcc || { err "Host compiler (gcc) not found in PATH"; exit 1; }
 
+mkdir -p out
+
 msg "Generating defconfig from \`make $defconfig\`..."
 if ! make O=out $arch_opts $make_opts $host_make_opts "$defconfig"; then
     err "Failed generating .config, make sure it is actually available in arch/${arch}/configs/ and is a valid defconfig file"
