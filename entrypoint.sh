@@ -68,7 +68,7 @@ if [[ $arch = "arm64" ]]; then
     export SUBARCH="$arch"
 
     # Setup GCC 5.1 toolchain
-    toolchain_url="https://developer.arm.com/-/cdn-downloads/permalink/legacy-linaro-gnu-toolchains/7.5-2019.12/gcc-linaro-7.5.0-2019.12-x86_64_aarch64-linux-gnu.tar.xz"
+    toolchain_url="https://developer.arm.com/-/cdn-downloads/permalink/legacy-linaro-gnu-toolchains/7.4-2019.02/gcc-linaro-7.4.1-2019.02-x86_64_aarch64_be-linux-gnu.tar.xz"
     toolchain_dest="/opt/lineage-gcc"
     toolchain_prefix="aarch64-linux-gnu-"
 
