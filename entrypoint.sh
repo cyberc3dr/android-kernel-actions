@@ -67,10 +67,10 @@ if [[ $arch = "arm64" ]]; then
     export ARCH="$arch"
     export SUBARCH="$arch"
 
-    # Setup LineageOS GCC 4.9 toolchain
-    toolchain_url="https://github.com/LineageOS/android_prebuilts_gcc_linux-x86_aarch64_aarch64-linux-android-4.9/archive/refs/heads/lineage-18.1.tar.gz"
+    # Setup GCC 5.1 toolchain
+    toolchain_url="https://developer.arm.com/-/cdn-downloads/permalink/legacy-linaro-gnu-toolchains/5.1-2015.08/gcc-linaro-5.1-2015.08-x86_64_aarch64-linux-gnu.tar.xz"
     toolchain_dest="/opt/lineage-gcc"
-    toolchain_prefix="aarch64-linux-android-"
+    toolchain_prefix="aarch64-linux-gnu-"
 
     msg "Downloading GCC toolchain..."
     echo "URL: $toolchain_url"
